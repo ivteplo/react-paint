@@ -1,8 +1,14 @@
 /* Copyright (c) 2021 Ivan Teplov */
 
+/* Reset styles */
 * {
   margin: 0;
   padding: 0;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
@@ -11,4 +17,138 @@ body {
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background-color: var(--background);
+  color: var(--foreground);
+
+  -webkit-tap-highlight-color: transparent;
+
+  --background: #eee;
+  --foreground: #000;
+  --primary: rgb(66, 127, 240);
+  --primary-darken: rgb(41, 108, 235);
+}
+
+button {
+  background-color: var(--primary);
+  color: var(--background);
+
+  transition: background-color 0.2s;
+
+  border-radius: 5px;
+  border: none;
+  outline: none;
+
+  font: inherit;
+  cursor: pointer;
+
+  padding: 0.25rem 0.5rem;
+}
+
+button:hover,
+button:focus {
+  background-color: var(--primary-darken);
+}
+
+/* Flexbox */
+
+.column,
+.row {
+  display: flex;
+}
+
+.column > *,
+.row > * {
+  flex: 0;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.fill {
+  flex: 1;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+/* App styles */
+.App {
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  display: block;
+
+  max-width: calc(100% - 2rem);
+  margin: 1rem;
+}
+
+canvas,
+.ToolbarSection {
+  background-color: white;
+  box-shadow: 0 2px 5px #ccc;
+  border-radius: 5px;
+}
+
+.ToolbarSection {
+  padding: 1rem;
+  margin: 1rem 1rem 0 0;
+  margin-bottom: 0;
+}
+
+.Toolbar > section h2 {
+  margin-bottom: 0.5rem;
+}
+
+.Toolbar > section .buttonWrapper {
+  gap: 0.5rem;
+}
+
+.BrushColorButton,
+.BrushSizeButton {
+  transition: box-shadow 0.2s;
+}
+
+.BrushColorButton {
+  background-color: transparent;
+  padding: 0;
+}
+
+.BrushColorButton > span {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 5px;
+}
+
+.BrushSizeButton {
+  background-color: transparent;
+
+  padding: 0.25rem 0;
+  width: 1.5rem;
+  flex-basis: 1.5rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.BrushSizeButton > span {
+  display: block;
+  height: 1.5rem;
+  border-radius: 5px;
+  background-color: var(--foreground);
+}
+
+.BrushColorButton:hover,
+.BrushColorButton:focus,
+.BrushSizeButton:hover,
+.BrushSizeButton:focus {
+  background-color: transparent;
+  box-shadow: 0 2px 3px #ccc;
 }
