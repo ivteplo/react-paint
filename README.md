@@ -2,9 +2,9 @@
 
 Drawing app made with React and TypeScript
 
-<div style="display: flex; flex-wrap: wrap;">
-  <img src="screenshots/app.png" alt="App screenshot" style="max-width: 500px; flex-grow: 1; flex-basis: 200px;">
-  <img src="screenshots/app-dark.png" alt="App in dark mode" style="max-width: 500px; flex-grow: 1; flex-basis: 200px;">
+<div>
+  <img src="screenshots/app.png" alt="App screenshot" width="300">
+  <img src="screenshots/app-dark.png" alt="App in dark mode" width="300">
 </div>
 
 ## Features
