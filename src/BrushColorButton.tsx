@@ -2,6 +2,9 @@
 
 import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
 
+/**
+ * Colors that are available in the app
+ */
 export const brushColors = {
   Red: '#dd2a2a',
   Orange: '#ffa501',
@@ -17,6 +20,10 @@ export const brushColors = {
   White: '#fff',
 }
 
+export function getColor(colorName: string): string {
+  return (brushColors as any)[colorName]
+}
+
 interface BrushColorButtonProps
   extends DetailedHTMLProps<
     ButtonHTMLAttributes<HTMLButtonElement>,
@@ -25,6 +32,9 @@ interface BrushColorButtonProps
   brushColor: string
 }
 
+/**
+ * Button to choose a specific color
+ */
 export function BrushColorButton({
   brushColor: color,
   className,
@@ -37,7 +47,8 @@ export function BrushColorButton({
       className={'BrushColorButton ' + (className ?? '')}
       {...props}
     >
-      <span style={{ backgroundColor: (brushColors as any)[color] }} />
+      {/* Square filled with the color */}
+      <span style={{ backgroundColor: getColor(color) }} />
     </button>
   )
 }

@@ -2,12 +2,19 @@
 
 import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
 
+/**
+ * Brush sizes available in the app
+ */
 export const brushSizes = {
   'Ultra Small': 2,
   Small: 4,
   Medium: 6,
   Large: 8,
   'Extra Large': 10,
+}
+
+export function getSize(brushSizeName: string): number {
+  return (brushSizes as any)[brushSizeName]
 }
 
 interface BrushSizeButtonProps
@@ -18,6 +25,9 @@ interface BrushSizeButtonProps
   brushSize: string
 }
 
+/**
+ * Button to select the brush size
+ */
 export function BrushSizeButton({
   brushSize,
   className,
@@ -30,7 +40,7 @@ export function BrushSizeButton({
       className={'BrushSizeButton ' + (className ?? '')}
       {...props}
     >
-      <span style={{ width: (brushSizes as any)[brushSize] + 'px' }} />
+      <span style={{ width: getSize(brushSize) + 'px' }} />
     </button>
   )
 }
