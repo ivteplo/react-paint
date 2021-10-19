@@ -23,6 +23,8 @@ body {
 
   -webkit-tap-highlight-color: transparent;
 
+  overscroll-behavior: none;
+
   --background: #eee;
   --foreground: #000;
   --primary: rgb(66, 127, 240);
@@ -90,10 +92,13 @@ button:focus {
   user-select: none;
 }
 
-@media (max-width: 798px) {
+@media (max-width: 800px) {
   .Toolbar {
     justify-content: flex-start;
     padding: 1rem;
+    overflow-x: scroll;
+    flex-basis: auto;
+    box-sizing: border-box;
   }
 }
 

@@ -2,6 +2,14 @@
 
 Drawing app made with React and TypeScript
 
+<div><img src="screenshots/app.png" alt="App screenshot" style="max-width: 100%"></div>
+
+## Features
+
+- Supports different brush sizes and colors
+- Can save paintings to the device
+- Works on mobile devices
+
 ## Development
 
 ### Prerequisites
