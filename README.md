@@ -2,6 +2,8 @@
 
 Drawing app made with React and TypeScript
 
+![Deployment status](https://github.com/ivteplo/react-paint/actions/workflows/deploy.yml/badge.svg)
+
 <div>
   <img src="screenshots/app.png" alt="App screenshot" width="300">
   <img src="screenshots/app-dark.png" alt="App in dark mode" width="300">
