@@ -2,13 +2,17 @@
 
 Drawing app made with React and TypeScript
 
-<div><img src="screenshots/app.png" alt="App screenshot" style="max-width: 100%"></div>
+<div style="display: flex; flex-wrap: wrap;">
+  <img src="screenshots/app.png" alt="App screenshot" style="max-width: 500px; flex-grow: 1; flex-basis: 200px;">
+  <img src="screenshots/app-dark.png" alt="App in dark mode" style="max-width: 500px; flex-grow: 1; flex-basis: 200px;">
+</div>
 
 ## Features
 
 - Supports different brush sizes and colors
 - Can save paintings to the device
 - Works on mobile devices
+- Supports dark mode
 
 ## Development
 
@@ -20,19 +24,19 @@ Drawing app made with React and TypeScript
 
 1. Clone the repository
 
-```shell
+```bash
 git clone https://github.com/ivteplo/react-paint
 ```
 
 2. Navigate to the project's root folder
 
-```shell
+```bash
 cd react-paint
 ```
 
 3. Install dependencies
 
-```shell
+```bash
 npm install
 # or, if you prefer yarn:
 yarn install
@@ -40,7 +44,7 @@ yarn install
 
 4. Start the development server
 
-```shell
+```bash
 npm run dev
 ```
 

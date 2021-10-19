@@ -27,9 +27,19 @@ body {
 
   --background: #eee;
   --foreground: #000;
+  --canvas-background: #fff;
   --primary: rgb(66, 127, 240);
   --primary-darken: rgb(41, 108, 235);
   --shadow: #bbb;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --background: rgb(8, 8, 22);
+    --foreground: #e5e5e5;
+    --canvas-background: #000;
+    --shadow: rgb(14, 13, 26);
+  }
 }
 
 button {
@@ -111,7 +121,7 @@ canvas {
 
 canvas,
 .ToolbarSection {
-  background-color: white;
+  background-color: var(--canvas-background);
   box-shadow: 0 2px 5px var(--shadow);
   border-radius: 5px;
 }

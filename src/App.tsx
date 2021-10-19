@@ -113,6 +113,15 @@ export default function App() {
     const context = canvas.getContext('2d')!
     context.lineJoin = 'round'
     context.lineCap = 'round'
+
+    // Fill the canvas background
+    const canvasBackground = getComputedStyle(document.body).getPropertyValue(
+      '--canvas-background'
+    )
+
+    context.fillStyle = canvasBackground
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    context.fillStyle = 'transparent'
   }
 
   // Call onResize when canvas is initialized
