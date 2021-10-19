@@ -20,11 +20,16 @@ interface BrushSizeButtonProps
 
 export function BrushSizeButton({
   brushSize,
-  children,
+  className,
   ...props
 }: BrushSizeButtonProps) {
   return (
-    <button title={brushSize} className="BrushSizeButton" {...props}>
+    <button
+      type="button"
+      title={brushSize}
+      className={'BrushSizeButton ' + (className ?? '')}
+      {...props}
+    >
       <span style={{ width: (brushSizes as any)[brushSize] + 'px' }} />
     </button>
   )

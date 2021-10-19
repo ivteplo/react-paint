@@ -1,61 +1,45 @@
 // Copyright (c) 2021 Ivan Teplov
 
-import ToolbarSection from './ToolbarSection'
 import { brushSizes, BrushSizeButton } from './BrushSizeButton'
 import { brushColors, BrushColorButton } from './BrushColorButton'
-import { MouseEvent, TouchEvent, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { getTouchPosition, Point } from './getTouchPosition'
+
+import MouseOrTouchEvent from './MouseOrTouchEvent'
+import ToolbarSection from './ToolbarSection'
+import downloadFile from './downloadFile'
+
 import './App.css'
-
-type MouseOrTouchEvent<T> = MouseEvent<T> | TouchEvent<T>
-
-const touchPositionToArray = ({
-  clientX,
-  clientY,
-}: {
-  clientX: number
-  clientY: number
-}): [x: number, y: number] => {
-  return [clientX, clientY]
-}
-
-const getTouchPosition = (event: MouseOrTouchEvent<HTMLCanvasElement>) => {
-  const { left, top } = event.currentTarget.getBoundingClientRect()
-
-  let result
-
-  if (event.type.startsWith('mouse')) {
-    event = event as MouseEvent<HTMLCanvasElement>
-    result = touchPositionToArray(event)
-  } else {
-    event = event as TouchEvent<HTMLCanvasElement>
-    result = touchPositionToArray(event.touches[0])
-  }
-
-  return [result[0] - left, result[1] - top]
-}
 
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  let currentSize = 10
-  let currentColor = brushColors.Blue
+  let [currentSize, setCurrentSize] = useState(brushSizes['Extra Large'])
+  let [currentColor, setCurrentColor] = useState(brushColors.Blue)
   let isDrawing = false
-  let previousPoint: [x: number, y: number] = [-1, -1]
+  let previousPoint: Point = [0, 0]
 
   const selectSize = (brushSize: number) => {
-    currentSize = brushSize
+    setCurrentSize(brushSize)
   }
 
   const selectColor = (brushColor: string) => {
-    currentColor = brushColor
+    setCurrentColor(brushColor)
   }
 
   const startDrawing = (event: MouseOrTouchEvent<HTMLCanvasElement>) => {
     isDrawing = true
-    previousPoint = getTouchPosition(event)
 
-    const context = (event.currentTarget as HTMLCanvasElement).getContext('2d')
-    context!.beginPath()
+    const context = event.currentTarget.getContext('2d')!
+    const point = getTouchPosition(event)
+
+    context.moveTo(...point)
+    context.beginPath()
+
+    previousPoint = point
+
+    context.strokeStyle = currentColor
+    context.lineWidth = currentSize
   }
 
   const continueDrawing = (event: MouseOrTouchEvent<HTMLCanvasElement>) => {
@@ -63,51 +47,100 @@ export default function App() {
       return
     }
 
-    const context = (event.currentTarget as HTMLCanvasElement).getContext('2d')
-    context!.moveTo(...previousPoint!)
+    const context = event.currentTarget.getContext('2d')!
+    const point = getTouchPosition(event)
 
-    previousPoint = getTouchPosition(event)
-    context!.lineTo(...previousPoint)
+    context.quadraticCurveTo(...previousPoint, ...point)
 
-    context!.strokeStyle = currentColor
-    context!.lineWidth = currentSize
-    context!.stroke()
+    previousPoint = point
+    context.stroke()
   }
 
   const endDrawing = (event: MouseOrTouchEvent<HTMLCanvasElement>) => {
     isDrawing = false
 
-    const context = (event.currentTarget as HTMLCanvasElement).getContext('2d')
-    context!.closePath()
+    const context = event.currentTarget.getContext('2d')!
+    context.closePath()
   }
 
+  const clearCanvas = () => {
+    if (!canvasRef.current) return
+
+    const context = canvasRef.current.getContext('2d')!
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+  }
+
+  const saveCanvas = () => {
+    if (!canvasRef.current) return
+
+    const contents = canvasRef.current.toDataURL('image/png')
+    downloadFile(contents, 'painting.png')
+  }
+
+  const onResize = () => {
+    if (!canvasRef.current) return
+
+    const canvas = canvasRef.current
+    canvas.removeAttribute('width')
+    canvas.removeAttribute('height')
+
+    canvas.width = canvas.offsetWidth
+    canvas.height = canvas.offsetHeight
+
+    const context = canvas.getContext('2d')!
+    context.lineJoin = 'round'
+    context.lineCap = 'round'
+  }
+
+  useEffect(() => onResize(), [canvasRef])
+
   useEffect(() => {
-    if (canvasRef.current) {
-      const canvas = canvasRef.current
-      canvas.width = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
+    window.addEventListener('resize', onResize)
+
+    return () => {
+      window.removeEventListener('resize', onResize)
     }
-  }, [canvasRef])
+  }, [])
 
   return (
     <div className="App column fill">
       <div className="Toolbar row">
+        <ToolbarSection title="Painting">
+          <button type="button" onClick={saveCanvas}>
+            Save
+          </button>
+          <button type="button" onClick={clearCanvas}>
+            Clear
+          </button>
+        </ToolbarSection>
+
         <ToolbarSection title="Brush size">
-          {Object.keys(brushSizes).map((size) => (
-            <BrushSizeButton
-              onClick={() => selectSize((brushSizes as any)[size])}
-              brushSize={size}
-            />
-          ))}
+          {Object.keys(brushSizes).map((size) => {
+            const sizeValue = (brushSizes as any)[size]
+            return (
+              <BrushSizeButton
+                key={size}
+                onClick={() => selectSize((brushSizes as any)[size])}
+                className={sizeValue === currentSize ? 'active' : ''}
+                brushSize={size}
+              />
+            )
+          })}
         </ToolbarSection>
 
         <ToolbarSection title="Brush color">
-          {Object.keys(brushColors).map((color) => (
-            <BrushColorButton
-              onClick={() => selectColor((brushColors as any)[color])}
-              brushColor={color}
-            />
-          ))}
+          {Object.keys(brushColors).map((color) => {
+            const colorValue = (brushColors as any)[color]
+
+            return (
+              <BrushColorButton
+                key={color}
+                onClick={() => selectColor(colorValue)}
+                className={colorValue === currentColor ? 'active' : ''}
+                brushColor={color}
+              />
+            )
+          })}
         </ToolbarSection>
       </div>
 

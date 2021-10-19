@@ -10,6 +10,11 @@ export const brushColors = {
   'Light blue': '#80d8f5',
   Blue: '#2875d5',
   Purple: '#801ddb',
+  Black: '#000',
+  'Dark gray': '#333',
+  Gray: '#777',
+  'Light gray': '#ccc',
+  White: '#fff',
 }
 
 interface BrushColorButtonProps
@@ -22,10 +27,16 @@ interface BrushColorButtonProps
 
 export function BrushColorButton({
   brushColor: color,
+  className,
   ...props
 }: BrushColorButtonProps) {
   return (
-    <button title={color} className="BrushColorButton" {...props}>
+    <button
+      type="button"
+      title={color}
+      className={'BrushColorButton ' + (className ?? '')}
+      {...props}
+    >
       <span style={{ backgroundColor: (brushColors as any)[color] }} />
     </button>
   )

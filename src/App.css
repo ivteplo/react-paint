@@ -27,6 +27,7 @@ body {
   --foreground: #000;
   --primary: rgb(66, 127, 240);
   --primary-darken: rgb(41, 108, 235);
+  --shadow: #bbb;
 }
 
 button {
@@ -77,8 +78,23 @@ button:focus {
 /* App styles */
 .App {
   height: 100%;
+  justify-content: space-around;
+}
+
+.Toolbar {
   justify-content: center;
-  align-items: center;
+  padding: 1rem;
+  padding-bottom: 0;
+  gap: 1rem;
+
+  user-select: none;
+}
+
+@media (max-width: 798px) {
+  .Toolbar {
+    justify-content: flex-start;
+    padding: 1rem;
+  }
 }
 
 canvas {
@@ -91,21 +107,19 @@ canvas {
 canvas,
 .ToolbarSection {
   background-color: white;
-  box-shadow: 0 2px 5px #ccc;
+  box-shadow: 0 2px 5px var(--shadow);
   border-radius: 5px;
 }
 
 .ToolbarSection {
   padding: 1rem;
-  margin: 1rem 1rem 0 0;
-  margin-bottom: 0;
 }
 
-.Toolbar > section h2 {
+.ToolbarSection h2 {
   margin-bottom: 0.5rem;
 }
 
-.Toolbar > section .buttonWrapper {
+.ToolbarSection .buttonWrapper {
   gap: 0.5rem;
 }
 
@@ -147,8 +161,10 @@ canvas,
 
 .BrushColorButton:hover,
 .BrushColorButton:focus,
+.BrushColorButton.active,
 .BrushSizeButton:hover,
-.BrushSizeButton:focus {
+.BrushSizeButton:focus,
+.BrushSizeButton.active {
   background-color: transparent;
-  box-shadow: 0 2px 3px #ccc;
+  box-shadow: 0 3px 5px var(--shadow);
 }
